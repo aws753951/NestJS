@@ -1,6 +1,7 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { CoreService } from './service';
 
+@Global()
 @Module({
   imports: [],
   controllers: [], // 不需要路由，純粹提供service的module
