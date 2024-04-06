@@ -1,4 +1,4 @@
-import { Controller, Get, Logger } from '@nestjs/common';
+import { Controller, Get, Logger, Param, Query, Headers } from '@nestjs/common';
 import { UserService } from './service';
 import { CoreService } from 'src/Core/service';
 
@@ -10,16 +10,28 @@ export class userController {
     private readonly coreService: CoreService,
   ) {}
 
-  @Get()
-  getUser(): string {
-    return this.userService.getUser();
+  @Get('param/:key')
+  getParam(@Param('key') key: string): string {
+    return `${key}`;
   }
 
-  @Get('core')
-  getCore(): string {
-    console.log('console.log');
-    Logger.log('Nest Logger'); // 使用Logger，在使用需變成 Logger.log
-    this.logger.log('this.logger'); // 使用自己定義的log : this.logger，但背後是 Logger這個，所以需要 this.logger.log
-    return this.coreService.getCore();
+  @Get('query')
+  getQuery(@Query('a') a: string, @Query('b') b: string): string {
+    return `a: ${a}, b: ${b}`;
+  }
+
+  @Get('queryall')
+  // @Query() 不帶參數，則 ?a=123&b=456  => 使 q成為了object  {a: 123, b: 456}
+  getQueryAll(@Query() q: any): string {
+    return `a: ${q.a}, b: ${q.b}`;
+  }
+
+  @Get('headers')
+  getHeader(@Headers() headers: any): string {
+    // return `${headers}`;
+    return `${JSON.stringify(headers)}`;
   }
 }
+
+// request object的選擇
+// https://docs.nestjs.com/controllers
