@@ -16,6 +16,12 @@ export class AuthGuard implements CanActivate {
     // 可以自行設定要看request的甚麼
     const a = parseInt(request.query.a || '0');
     console.log(`request.a: ${a}`);
+
+    // 在任何一個切面可以擴展這個request的property，然後這個request會貫穿整個過程
+    request.userInfo = {
+      request_a_class: a > 99 ? 'VIP' : 'NORMAL',
+      request_a: a,
+    };
     return a > this.minLevel;
   }
 }

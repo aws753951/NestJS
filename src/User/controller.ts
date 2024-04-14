@@ -12,6 +12,7 @@ import { UserService } from './service';
 import { CoreService } from 'src/Core/service';
 import { LoggingInterceptor } from 'src/logging.interceptor';
 import { AuthGuard } from 'src/auth.guard';
+import { UserInfo } from 'src/user.decorator';
 
 // 使用useGuards主要針對 控制器級別(controller)或路由處理程序級別(handler)設置
 // 若要以應用程序級別，請用APP_GUARD => https://docs.nestjs.com/guards
@@ -47,6 +48,16 @@ export class userController {
   getHeader(@Headers() headers: any): string {
     // return `${headers}`;
     return `${JSON.stringify(headers)}`;
+  }
+
+  // 接收router: /user/request_a_level?a=100   (a=100不一定要寫)
+  // 不一定要填寫query，是因為在auth.quard會辨別妳有沒有 request.query.a ，並做相關的處理
+  @Get('request_a_level')
+  // 由於自製的decorator沒有參數，所以回傳userInfo整個object
+  getLevel(@UserInfo() info: any): string {
+    console.log(info);
+    // 這個info有這個屬性，是因為在auth.quard裡面有先替request加工
+    return `requst_a_level: ${info.request_a_class} and requst_a: ${info.request_a}`;
   }
 }
 
