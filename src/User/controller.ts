@@ -6,11 +6,15 @@ import {
   Query,
   Headers,
   UseInterceptors,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './service';
 import { CoreService } from 'src/Core/service';
 import { LoggingInterceptor } from 'src/logging.interceptor';
+import { AuthGuard } from 'src/auth.guard';
 
+// 可針對任何路由設置守衛
+@UseGuards(new AuthGuard())
 // 可針對任何路由設置攔截器 ex. /user/底下全部設置攔截器
 @UseInterceptors(new LoggingInterceptor())
 @Controller('user')
