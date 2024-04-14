@@ -1,7 +1,18 @@
-import { Controller, Get, Logger, Param, Query, Headers } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Logger,
+  Param,
+  Query,
+  Headers,
+  UseInterceptors,
+} from '@nestjs/common';
 import { UserService } from './service';
 import { CoreService } from 'src/Core/service';
+import { LoggingInterceptor } from 'src/logging.interceptor';
 
+// 可針對任何路由設置攔截器 ex. /user/底下全部設置攔截器
+@UseInterceptors(new LoggingInterceptor())
 @Controller('user')
 export class userController {
   private readonly logger = new Logger(userController.name); // 自定義logger描述
