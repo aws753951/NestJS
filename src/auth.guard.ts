@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
+  constructor(private minLevel: number = 0) {}
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
@@ -14,6 +15,7 @@ export class AuthGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     // 可以自行設定要看request的甚麼
     const a = parseInt(request.query.a || '0');
-    return a > 10;
+    console.log(`request.a: ${a}`);
+    return a > this.minLevel;
   }
 }

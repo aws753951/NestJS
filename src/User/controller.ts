@@ -13,8 +13,10 @@ import { CoreService } from 'src/Core/service';
 import { LoggingInterceptor } from 'src/logging.interceptor';
 import { AuthGuard } from 'src/auth.guard';
 
+// 使用useGuards主要針對 控制器級別(controller)或路由處理程序級別(handler)設置
+// 若要以應用程序級別，請用APP_GUARD => https://docs.nestjs.com/guards
 // 可針對任何路由設置守衛
-@UseGuards(new AuthGuard())
+@UseGuards(new AuthGuard(15))
 // 可針對任何路由設置攔截器 ex. /user/底下全部設置攔截器
 @UseInterceptors(new LoggingInterceptor())
 @Controller('user')
