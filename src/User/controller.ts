@@ -54,10 +54,10 @@ export class userController {
   // 不一定要填寫query，是因為在auth.quard會辨別妳有沒有 request.query.a ，並做相關的處理
   @Get('request_a_level')
   // 由於自製的decorator沒有參數，所以回傳userInfo整個object
-  getLevel(@UserInfo() info: any): string {
-    console.log(info);
+  getLevel(@UserInfo('request_a_class') lvclass: any): string {
+    console.log(lvclass);
     // 這個info有這個屬性，是因為在auth.quard裡面有先替request加工
-    return `requst_a_level: ${info.request_a_class} and requst_a: ${info.request_a}`;
+    return `requst_a_level: ${lvclass} `;
   }
 }
 
